@@ -7,7 +7,7 @@ const bookingRouter=express.Router()
 bookingRouter.post("/booking",async(req,res)=>{
     let bookdata={
         user:req.body.userID,
-        flight:req.body.flight
+        flight:req.body.flightID
     }
 
     try {
@@ -21,7 +21,7 @@ bookingRouter.post("/booking",async(req,res)=>{
 
 bookingRouter.get("/dashboard",async(req,res)=>{
     try {
-        let data=await BookingModel.find()
+        let data=await BookingModel.find().populate("user").populate("flight").exec()
         res.status(200).send(data)
     } catch (error) {
         res.status(400).send({"error":error.message})
